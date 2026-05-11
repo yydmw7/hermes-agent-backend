@@ -1,0 +1,36 @@
+app:
+  name: Hermes Agent
+  host: 127.0.0.1
+  port: 8787
+
+hermes:
+  root: /home/ubuntu/hermes
+  healthUrl: http://127.0.0.1:3000/health
+  logFile: /home/ubuntu/hermes/logs/app.log
+  logCommand: journalctl --user -u hermes.service -n 200 --no-pager
+  service:
+    name: hermes.service
+    scope: user
+  commands:
+    start: systemctl --user start hermes
+    stop: systemctl --user stop hermes
+    restart: systemctl --user restart hermes
+    status: systemctl --user status hermes --no-pager
+
+backup:
+  dir: /mnt/d/HermesBackups
+  keepLast: 10
+  include:
+    - .env
+    - config
+    - data
+    - uploads
+    - logs
+  exclude:
+    - node_modules
+    - .git
+    - cache
+    - tmp
+
+security:
+  adminToken: change-this-token
